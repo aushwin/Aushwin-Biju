@@ -3,13 +3,30 @@ const url = require('url')
 const app = express()
 const port = 3000
 
-const validUrls = ["/primes","/fibo","/odd","/rand"]
 
+let words = ["bonfire", "cardio", "case", "character", "bonsai"]
 
 app.get('/prefixes',async (req,res)=>{
-    var numbers = []
+    var result = [{
+        'message' : "havn't started learning trees yet so so could'nt find the unique prefix"
+    }]
     const keywords = req.query.keywords.split(',')
-    res.json({keywords:keywords})
+    keywords.forEach(element => {
+        var obj
+        if (words.includes(element)){
+            obj = {
+                "keyword": element,
+                "status" : 'found'
+            }
+        }else {
+            obj = {
+                "keyword": element,
+                "status": 'not_found'
+            }
+        }
+        result.push(obj)
+    });
+    res.json(result)
 })
 
 app.listen(port,()=>{
